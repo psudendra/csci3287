@@ -15,32 +15,49 @@ INSERT INTO customers VALUES
 (2, 'Sheefali Tewari', '222-222-2222'),
 (3, 'Thomas Green', '222-333-3333');
 
+CREATE TABLE address_zipstate
+(
+	-- state determines zip
+	zip VARCHAR(20),
+	state VARCHAR(20),
+	PRIMARY KEY (zip)
+);
+INSERT INTO address_zipstate VALUES
+('80301', 'CO'),
+('80302', 'CO'),
+('80303', 'CO');
+
 CREATE TABLE addresses
 (
 	address_id INT NOT NULL,
 	customer_id INT NOT NULL,
-	street_address VARCHAR(50),
-	zipcode VARCHAR(5),
+	city VARCHAR(20),
+	zip VARCHAR(20) REFERENCES address_zipstate(zip),
 	PRIMARY KEY (address_id),
-	CONSTRAINT addresses_fk_customers
+
+	CONSTRAINT address_fk_customers
 		FOREIGN KEY (customer_id)
-		REFERENCES customers(customer_id)
+		REFERENCES customers(customer_id),
+
+	CONSTRAINT address_fk_zip
+		FOREIGN KEY (zip)
+		REFERENCES address_zipstate(zip)
 );
 INSERT INTO addresses VALUES
-(1, 1, '1111 North St.', '80303'),
-(2, 2, '2222 South Ave.', '24353'),
-(3, 3, '3333 East Pl.', '85853');
+(1, 1, 'Boulder', '80301'),
+(2, 2, 'Boulder', '80302'),
+(3, 3, 'Boulder', '80303');
 
 CREATE TABLE stores
 (
-	store_id INT NOT NULL,
+	stores_id INT NOT NULL,
 	name VARCHAR(20),
-	PRIMARY KEY (store_id)
+	PRIMARY KEY (stores_id)
 );
 INSERT INTO stores VALUES
 (1, 'Boulder'),
 (2, 'Park Meadows'),
-(3, 'Westminister'),
+(3, 'Lafayette'),
 (4, 'Broomfield');
 
 CREATE TABLE customers_cards
@@ -139,8 +156,9 @@ CREATE TABLE customer_purchases
 	customer_id INT NOT NULL,
 	employee_id INT NOT NULL,
 	card_id INT NOT NULL,
-	store_id INT NOT NULL,
+	stores_id INT NOT NULL,
 	product_id INT NOT NULL,
+	total_purchase_price DECIMAL(4,2) NOT NULL,
 	PRIMARY KEY (customer_purchase_ID),
 
 	CONSTRAINT purchase_fk_employee
@@ -156,8 +174,8 @@ CREATE TABLE customer_purchases
 		REFERENCES customers_cards(card_id),
 
 	CONSTRAINT purchase_fk_stores
-		FOREIGN KEY (store_id)
-		REFERENCES stores(store_id),
+		FOREIGN KEY (stores_id)
+		REFERENCES stores(stores_id),
 
 	CONSTRAINT purchase_fk_product
 		FOREIGN KEY (product_id)
@@ -165,6 +183,6 @@ CREATE TABLE customer_purchases
 
 );
 INSERT INTO customer_purchases VALUES
-(1, 1, 1, 1, 1, 1),
-(2, 2, 2, 2, 2, 3),
-(3, 3, 3, 3, 4, 2);
+(1, 1, 1, 1, 1, 1, '50.34'),
+(2, 2, 2, 2, 2, 3, '20.59'),
+(3, 3, 3, 3, 4, 2, '100.68');
