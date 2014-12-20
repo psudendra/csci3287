@@ -42,7 +42,7 @@ WHERE
 	customer_purchases.customer_purchase_id = customers.customer_id
 GROUP BY 
 	customers.customer_id
-HAVING COUNT(customer_purchases.customer_purchase_id) > 2;
+HAVING COUNT(customer_purchases.customer_purchase_id) > 1;
 
 
 # 7 - SELECT FROM WHERE with two implied JOINS, a MAX function, AVG function
@@ -80,3 +80,6 @@ DROP USER psudendra@localhost;
 START TRANSACTION;
 DELETE FROM customer_purchases WHERE total_purchase_price < '30.00';
 ROLLBACK;
+#Prove that it worked
+SELECT * FROM customer_purchases; 
+
