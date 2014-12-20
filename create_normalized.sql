@@ -185,4 +185,5 @@ CREATE TABLE customer_purchases
 INSERT INTO customer_purchases VALUES
 (1, 1, 1, 1, 1, 1, '50.34'),
 (2, 2, 2, 2, 2, 3, '20.59'),
-(3, 3, 3, 3, 4, 2, '100.68');
+(3, 3, 1, 1, 1, 3, '20.59'),
+(4, 3, 3, 3, 4, 2, '100.68');
